@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
@@ -40,11 +41,20 @@ android {
 
 apply plugin: 'maven'
 group = 'jp.kshoji'
+
+def pomVersion = '0.0.4'
+def artifactId = 'javax-sound-midi'
+
 uploadArchives {
     repositories.mavenDeployer {
         repository url: 'file://' + file('repository').absolutePath
-        pom.version = '0.0.4'
-        pom.artifactId = 'javax-sound-midi'
+        pom.version = "${pomVersion}"
+        pom.artifactId = "${artifactId}"
+    }
+    repositories.mavenInstaller {
+        pom.version = "${pomVersion}"
+        pom.artifactId = "${artifactId}"
     }
 }
 task install(dependsOn: uploadArchives)
+
